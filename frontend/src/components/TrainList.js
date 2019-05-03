@@ -1,10 +1,62 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
+const Train = props => (
+  <tr>
+    <td> {props.train.source} </td>
+    <td> {props.train.destination} </td>
+    <td> {props.train.price} </td>
+  </tr>
+);
 class TrainList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { traintickets: [] };
+  }
+
+  componentDidMount() {
+    axios
+      .get("http://localhost:4000/trainticketrs/")
+      .then(response => {
+        this.setState({ traintickets: response.data });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  componentDidUpdate() {
+    axios
+      .get("http://localhost:4000/trainticketrs/")
+      .then(response => {
+        this.setState({ traintickets: response.data });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  trainList() {
+    return this.state.traintickets.map(function(currentTrain, i) {
+      return <Train train={currentTrain} key={i} />;
+    });
+  }
+
   render() {
     return (
       <div>
-        <h1> Train List Component </h1>
+        <h3> Trains </h3>
+        <table className="table table-striped" style={{ marginTop: 20 }}>
+          <thead>
+            <tr>
+              <th> Source </th>
+              <th> Destination </th>
+              <th> Price (LKR)</th>
+            </tr>
+          </thead>
+          <tbody>{this.trainList()}</tbody>
+        </table>
       </div>
     );
   }

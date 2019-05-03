@@ -4,6 +4,14 @@ import visalogo from "../resources/visalogo.png";
 import masterlogo from "../resources/masterlogo.png";
 
 class PaymentMethod extends Component {
+  handleSubmit = e => {
+    e.preventDefault();
+
+    console.log(`Form submitted:`);
+
+    this.props.history.push(`/step3`);
+  };
+
   render() {
     return (
       <div style={{ backgroundColor: "#D3D3D3" }}>
@@ -26,7 +34,11 @@ class PaymentMethod extends Component {
               </h5>
 
               <div className="card-body px-lg-5">
-                <form className="text-center" style={{ color: "#757575" }}>
+                <form
+                  className="text-center"
+                  style={{ color: "#757575" }}
+                  onSubmit="handleSubmit()"
+                >
                   <div className="custom-control custom-radio">
                     <input
                       type="radio"

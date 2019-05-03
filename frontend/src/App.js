@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 import TrainList from "./components/TrainList";
 import TicketBook from "./components/TicketBooking";
@@ -39,21 +39,21 @@ function App() {
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav mr-auto">
             <li className="navbar-item">
-              <Link to="/book" className="nav-link">
+              <Link to="/book" className="nav-link" style={{ color: "white" }}>
                 Book Train Tickets
               </Link>
             </li>
           </ul>
         </div>
       </nav>
-      <switch>
+      <Switch>
         <Route path="/" exact component={TrainList} />
         <Route path="/book" exact component={TicketBook} />
         <Route path="/book/step2" exact component={PaymentMethod} />
         <Route path="/book/step3" exact component={GovEmployeeDis} />
         <Route path="/book/step4" exact component={SampathBankPG} />
         <Route path="/book/step5" exact component={DialogPG} />
-      </switch>
+      </Switch>
     </Router>
   );
 }
