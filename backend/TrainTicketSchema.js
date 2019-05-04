@@ -13,6 +13,9 @@ let schemaTrainTicket = new Schema({
   },
   nooftickets: {
     type: String
+  },
+  nic: {
+    type: String
   }
 });
 

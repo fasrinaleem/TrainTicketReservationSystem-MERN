@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
-import PaymentMethod from "./PaymentMethod";
+import GovermentEmployeeDis from "./GovermentEmployeeDiscount";
 
 class TicketBooking extends Component {
   constructor(props) {
@@ -61,14 +61,14 @@ class TicketBooking extends Component {
     console.log(`Destination: ${this.state.destination} `);
     console.log(`NoofTickets: ${this.state.nooftickets} `);
 
-    const newTodo = {
+    const newBooking = {
       source: this.state.source,
       destination: this.state.destination,
       nooftickets: this.state.nooftickets
     };
 
     axios
-      .post("http://localhost:4000/trainticketrs/book", newTodo)
+      .post("http://localhost:4000/trainticketrs/addbook", newBooking)
       .then(res => console.log(res.data));
 
     this.setState({
@@ -76,6 +76,8 @@ class TicketBooking extends Component {
       destination: "",
       nooftickets: ""
     });
+
+    this.props.history.push(`/book/step2`);
   }
 
   checkSource(e) {
@@ -83,21 +85,21 @@ class TicketBooking extends Component {
     this.setState({
       source: e.target.value
     });
-    console.log(soList);
+    console.log("Source : " + soList);
   }
   checkDestination(e) {
     var deList = document.getElementById("deList").value;
     this.setState({
       destination: e.target.value
     });
-    console.log(deList);
+    console.log("Destination : " + deList);
   }
   checkTickets(e) {
     var tickets = document.getElementById("tickets").value;
     this.setState({
       nooftickets: e.target.value
     });
-    console.log(tickets);
+    console.log("No of Tickets : " + tickets);
   }
 
   render() {
@@ -118,7 +120,11 @@ class TicketBooking extends Component {
                 </h5>
 
                 <div className="card-body px-lg-5">
-                  <form className="text-center" style={{ color: "#757575" }}>
+                  <form
+                    className="text-center"
+                    style={{ color: "#757575" }}
+                    onSubmit={this.onSubmit}
+                  >
                     <label> From : </label>
                     <select
                       class="browser-default custom-select mb-4"
@@ -128,46 +134,11 @@ class TicketBooking extends Component {
                       <option value="" disabled selected>
                         Choose option
                       </option>
-                      <option
-                        checked={this.props.source === "Colombo"}
-                        onChange={this.onChangeSource}
-                        value="Colombo"
-                      >
-                        {" "}
-                        Colombo{" "}
-                      </option>
-                      <option
-                        checked={this.props.source === "Gampaha"}
-                        onChange={this.onChangeSource}
-                        value="Gampaha"
-                      >
-                        {" "}
-                        Gampaha{" "}
-                      </option>
-                      <option
-                        checked={this.props.source === "Nawalapitiya"}
-                        onChange={this.onChangeSource}
-                        value="Nawalapitiya"
-                      >
-                        {" "}
-                        Nawalapitiya{" "}
-                      </option>
-                      <option
-                        checked={this.props.source === "Ella"}
-                        onChange={this.onChangeSource}
-                        value="Ella"
-                      >
-                        {" "}
-                        Ella{" "}
-                      </option>
-                      <option
-                        checked={this.props.source === "Badulla"}
-                        onChange={this.onChangeSource}
-                        value="Badulla"
-                      >
-                        {" "}
-                        Badulla{" "}
-                      </option>
+                      <option value="Colombo"> Colombo </option>
+                      <option value="Gampaha"> Gampaha </option>
+                      <option value="Nawalapitiya"> Nawalapitiya </option>
+                      <option value="Ella"> Ella </option>
+                      <option value="Badulla"> Badulla </option>
                     </select>
                     <label> To : </label>
                     <select
@@ -178,46 +149,11 @@ class TicketBooking extends Component {
                       <option value="" disabled selected>
                         Choose option
                       </option>
-                      <option
-                        checked={this.props.destination === "Colombo"}
-                        onChange={this.onChangeDestination}
-                        value="Colombo"
-                      >
-                        {" "}
-                        Colombo{" "}
-                      </option>
-                      <option
-                        checked={this.props.destination === "Gampaha"}
-                        onChange={this.onChangeDestination}
-                        value="Gampaha"
-                      >
-                        {" "}
-                        Gampaha{" "}
-                      </option>
-                      <option
-                        checked={this.props.destination === "Nawalapitiya"}
-                        onChange={this.onChangeDestination}
-                        value="Nawalapitiya"
-                      >
-                        {" "}
-                        Nawalapitiya{" "}
-                      </option>
-                      <option
-                        checked={this.props.destination === "Ella"}
-                        onChange={this.onChangeDestination}
-                        value="Ella"
-                      >
-                        {" "}
-                        Ella{" "}
-                      </option>
-                      <option
-                        checked={this.props.destination === "Badulla"}
-                        onChange={this.onChangeDestination}
-                        value="Badulla"
-                      >
-                        {" "}
-                        Badulla{" "}
-                      </option>
+                      <option value="Colombo"> Colombo </option>
+                      <option value="Gampaha"> Gampaha </option>
+                      <option value="Nawalapitiya"> Nawalapitiya </option>
+                      <option value="Ella"> Ella </option>
+                      <option value="Badulla"> Badulla </option>
                     </select>
 
                     <label> No of Tickets : </label>
@@ -226,7 +162,6 @@ class TicketBooking extends Component {
                       placeholder="No of tickets"
                       className="form-control mb-4"
                       id="tickets"
-                      value={this.props.nooftickets}
                       onChange={this.checkTickets}
                     />
 
@@ -242,10 +177,6 @@ class TicketBooking extends Component {
             </center>
           </div>
         </div>
-
-        <Switch>
-          <Route path="/book/step2" exact component={PaymentMethod} />
-        </Switch>
       </Router>
     );
   }

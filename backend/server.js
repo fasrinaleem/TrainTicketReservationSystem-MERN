@@ -48,23 +48,21 @@ TicketRoutes.route("/addbook").post(function(req, res) {
     });
 });
 
-// //Update the course details
-// courseRoutes.route("/update/:id").post(function(req, res) {
-//   courseModel.findById(req.params.id, function(err, coursemodel) {
-//     if (!coursemodel) res.status(404).send("Data is not found");
-//     else coursemodel.courseName = req.body.courseName;
-//     coursemodel.instructorName = req.body.instructorName;
-//     coursemodel.year = req.body.year;
-//     coursemodel
-//       .save()
-//       .then(coursemodel => {
-//         res.json("Course Updated");
-//       })
-//       .catch(err => {
-//         res.status(400).send("Update not possible");
-//       });
-//   });
-// });
+//Update the NIC Number If He is a Goverment Employee
+TicketRoutes.route("/update/:id").post(function(req, res) {
+  TicketModel.findById(req.params.id, function(err, ticketmodel) {
+    if (!ticketmodel) res.status(404).send("Data is not found");
+    else ticketmodel.nic = req.body.nic;
+    ticketmodel
+      .save()
+      .then(ticketmodel => {
+        res.json("Course Updated");
+      })
+      .catch(err => {
+        res.status(400).send("Update not possible");
+      });
+  });
+});
 
 // Delete the TrainTicket
 TicketRoutes.route("/delete/:id").delete(function(req, res) {

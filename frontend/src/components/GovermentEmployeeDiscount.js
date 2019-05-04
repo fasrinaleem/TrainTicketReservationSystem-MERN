@@ -1,6 +1,46 @@
 import React, { Component } from "react";
+import axios from "axios";
 
-class PaymentMethod extends Component {
+class GovermentEmployeeDis extends Component {
+  constructor(props) {
+    super(props);
+
+    this.getnic = this.getnic.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+
+    this.state = {
+      nic: ""
+    };
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+
+    console.log(`Form Submitted: `);
+    console.log(`NIC: ${this.state.nic} `);
+
+    const newNIC = {
+      nic: this.state.nic
+    };
+
+    axios
+      .post("http://localhost:4000/trainticketrs/addbook", newNIC)
+      .then(res => console.log(res.data));
+
+    this.setState({
+      nic: ""
+    });
+    this.props.history.push(`/book/step3`);
+  }
+
+  getnic(e) {
+    var nic = document.getElementById("nic").value;
+    this.setState({
+      nic: e.target.value
+    });
+    console.log("nic : " + nic);
+  }
+
   render() {
     return (
       <div style={{ backgroundColor: "#D3D3D3" }}>
@@ -26,12 +66,19 @@ class PaymentMethod extends Component {
               </h5>
 
               <div className="card-body px-lg-5">
-                <form className="text-center" style={{ color: "#757575" }}>
+                <form
+                  className="text-center"
+                  style={{ color: "#757575" }}
+                  onSubmit={this.onSubmit}
+                  name="myform"
+                >
                   <label> NIC Number : </label>
                   <input
                     type="text"
                     placeholder="NIC Number"
                     className="form-control mb-4"
+                    id="nic"
+                    onChange={this.getnic}
                   />
                   <button
                     className="btn btn-outline-primary btn-rounded btn-block z-depth-0 my-4 waves-effect"
@@ -49,4 +96,4 @@ class PaymentMethod extends Component {
   }
 }
 
-export default PaymentMethod;
+export default GovermentEmployeeDis;

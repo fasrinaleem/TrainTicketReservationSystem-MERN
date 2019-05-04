@@ -9,8 +9,16 @@ class PaymentMethod extends Component {
 
     console.log(`Form submitted:`);
 
-    this.props.history.push(`/step3`);
+    this.setState({
+      method: this.state.value
+    });
+
+    if (this.state.method.value === "creditcard") {
+      this.props.history.push(`/book/step2`);
+    } else this.props.history.push(`/book/step4`);
   };
+
+  checkPaymentmeth(e) {}
 
   render() {
     return (
@@ -37,19 +45,17 @@ class PaymentMethod extends Component {
                 <form
                   className="text-center"
                   style={{ color: "#757575" }}
-                  onSubmit="handleSubmit()"
+                  onSubmit={this.handleSubmit}
                 >
                   <div className="custom-control custom-radio">
                     <input
                       type="radio"
                       className="custom-control-input"
-                      id="defaultUnchecked"
+                      id="creditcard"
                       name="defaultExampleRadios"
+                      value="creditcard"
                     />
-                    <label
-                      className="custom-control-label"
-                      for="defaultUnchecked"
-                    >
+                    <label className="custom-control-label" for="creditcard">
                       Credit Card
                       <div>
                         <img src={visalogo} width="50" height="20" alt="" />
@@ -57,18 +63,16 @@ class PaymentMethod extends Component {
                       </div>
                     </label>
                   </div>
-                  <div className="custom-control custom-radio">
+                  <div className="custom-radio">
                     <input
                       type="radio"
                       className="custom-control-input"
-                      id="defaultChecked"
+                      id="mobilenum"
                       name="defaultExampleRadios"
+                      value="mobile"
                       checked
                     />
-                    <label
-                      className="custom-control-label"
-                      for="defaultChecked"
-                    >
+                    <label className="custom-control-label" for="mobilenum">
                       Mobile Number (Payment will added to the mobile bill)
                     </label>
                   </div>
