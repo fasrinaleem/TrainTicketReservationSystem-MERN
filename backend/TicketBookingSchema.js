@@ -1,16 +1,19 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-let schemaTrainTicket = new Schema({
+let schemaBooking = new Schema({
   source: {
     type: String
   },
   destination: {
     type: String
   },
-  price: {
+  nooftickets: {
+    type: String
+  },
+  nic: {
     type: String
   }
 });
 
-module.exports = mongoose.model("trainticket", schemaTrainTicket);
+module.exports = mongoose.model("trainbooking", schemaBooking);

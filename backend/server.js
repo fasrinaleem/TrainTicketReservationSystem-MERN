@@ -3,10 +3,13 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const TicketRoutes = express.Router();
 const PORT = 4000;
 
+const TicketRoutes = express.Router();
+const BookingRoutes = express.Router();
+
 const TicketModel = require("./TrainTicketSchema");
+const BookingModel = require("./TicketBookingSchema");
 
 mongoose
   .connect("mongodb://localhost/trainticketrs", { useNewUrlParser: true })
@@ -18,8 +21,19 @@ mongoose
   });
 
 //Get all Train Ticket details
-TicketRoutes.route("/").get(function(req, res) {
+TicketRoutes.route("/tickets").get(function(req, res) {
   TicketModel.find(function(err, trainticketrs) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(trainticketrs);
+    }
+  });
+});
+
+//Get Booking details
+BookingRoutes.route("/mybooking").get(function(req, res) {
+  BookingModel.find(function(err, trainticketrs) {
     if (err) {
       console.log(err);
     } else {
@@ -35,8 +49,15 @@ TicketRoutes.route("/:id").get(function(req, res) {
   });
 });
 
+BookingRoutes.route("/:id").get(function(req, res) {
+  let id = req.params.id;
+  BookingModel.findById(id, function(err, book) {
+    res.json(book);
+  });
+});
+
 //Add new Train Ticket Details to db
-TicketRoutes.route("/addbook").post(function(req, res) {
+TicketRoutes.route("/tickets/addticket").post(function(req, res) {
   let ticket = new TicketModel(req.body);
   ticket
     .save()
@@ -45,6 +66,18 @@ TicketRoutes.route("/addbook").post(function(req, res) {
     })
     .catch(err => {
       res.status(400).send("Adding new Ticket failed");
+    });
+});
+
+//Add new Booking Details to db
+BookingRoutes.route("/mybooking/addbooking").post(function(req, res) {
+  let Booking = new BookingModel(req.body);
+  Booking.save()
+    .then(Booking => {
+      res.status(200).json({ Booking: "Booking added successfully" });
+    })
+    .catch(err => {
+      res.status(400).send("Adding new Booking failed");
     });
 });
 
@@ -80,7 +113,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //Middlewares
-app.use("/trainticketrs", TicketRoutes);
+app.use("/trainticketrs/api/", TicketRoutes);
+app.use("/trainticketrs/api2/", BookingRoutes);
 
 app.listen(PORT, function() {
   console.log("Server is running on port : " + PORT);
