@@ -13,6 +13,18 @@ let schemaBooking = new Schema({
   },
   nic: {
     type: String
+  },
+  nameoncard: {
+    type: String
+  },
+  cardno: {
+    type: String
+  },
+  cvv: {
+    type: String
+  },
+  mobileno: {
+    type: String
   }
 });
 

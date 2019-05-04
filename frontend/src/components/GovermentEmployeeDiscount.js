@@ -13,19 +13,48 @@ class GovermentEmployeeDis extends Component {
     };
   }
 
+  componentDidMount() {
+    axios
+      .get("http://localhost:4000/api2/mybooking" + this.props.match.params.id)
+      .then(response => {
+        this.setState({
+          nic: response.data.nic
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
-    console.log(`Form Submitted: `);
-    console.log(`NIC: ${this.state.nic} `);
-
-    const newNIC = {
+    e.preventDefault();
+    const updatedCourse = {
       nic: this.state.nic
     };
 
     axios
-      .post("http://localhost:4000/trainticketrs/addbook", newNIC)
+      .post(
+        "http://localhost:4000/api2/mybooking/update" +
+          this.props.match.params.id,
+        updatedCourse
+      )
       .then(res => console.log(res.data));
+
+    console.log(`Form Submitted: `);
+    console.log(`NIC: ${this.state.nic} `);
+
+    // const newNIC = {
+    //   nic: this.state.nic
+    // };
+
+    // axios
+    //   .post(
+    //     "http://localhost:4000/trainticketrs/api2/mybooking/addbooking",
+    //     newNIC
+    //   )
+    //   .then(res => console.log(res.data));
 
     this.setState({
       nic: ""

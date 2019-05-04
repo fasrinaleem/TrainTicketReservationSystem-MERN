@@ -8,6 +8,7 @@ import PaymentMethod from "./components/PaymentMethod";
 import SampathBankPG from "./components/SampathBankPG";
 import DialogPG from "./components/DialogPG";
 import GovEmployeeDis from "./components/GovermentEmployeeDiscount";
+import GovEmporNot from "./components/GovEmporNot";
 
 import navImage from "./resources/navnew3.jpg";
 
@@ -49,7 +50,8 @@ function App() {
       <Switch>
         <Route path="/" exact component={TrainList} />
         <Route path="/book" exact component={TicketBook} />
-        <Route path="/book/step2" exact component={GovEmployeeDis} />
+        <Route path="/book/step22" exact component={GovEmporNot} />
+        <Route path="/book/update/:id" exact component={GovEmployeeDis} />
         <Route path="/book/step3" exact component={PaymentMethod} />
         <Route path="/book/step4" exact component={SampathBankPG} />
         <Route path="/book/step5" exact component={DialogPG} />

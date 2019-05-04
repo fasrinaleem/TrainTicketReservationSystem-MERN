@@ -68,7 +68,10 @@ class TicketBooking extends Component {
     };
 
     axios
-      .post("http://localhost:4000/trainticketrs/addbook", newBooking)
+      .post(
+        "http://localhost:4000/trainticketrs/api2/mybooking/addbooking",
+        newBooking
+      )
       .then(res => console.log(res.data));
 
     this.setState({
@@ -77,7 +80,8 @@ class TicketBooking extends Component {
       nooftickets: ""
     });
 
-    this.props.history.push(`/book/step2`);
+    // this.props.history.push(`/book/step2`);
+    this.props.history.push(`/book/step22`);
   }
 
   checkSource(e) {

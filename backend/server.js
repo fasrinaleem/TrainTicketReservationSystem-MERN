@@ -42,15 +42,15 @@ BookingRoutes.route("/mybooking").get(function(req, res) {
   });
 });
 
-TicketRoutes.route("/:id").get(function(req, res) {
-  let id = req.params.id;
+TicketRoutes.route("/:tid").get(function(req, res) {
+  let id = req.params.tid;
   TicketModel.findById(id, function(err, ticket) {
     res.json(ticket);
   });
 });
 
-BookingRoutes.route("/:id").get(function(req, res) {
-  let id = req.params.id;
+BookingRoutes.route("/:bid").get(function(req, res) {
+  let id = req.params.bid;
   BookingModel.findById(id, function(err, book) {
     res.json(book);
   });
@@ -82,13 +82,13 @@ BookingRoutes.route("/mybooking/addbooking").post(function(req, res) {
 });
 
 //Update the NIC Number If He is a Goverment Employee
-TicketRoutes.route("/update/:id").post(function(req, res) {
-  TicketModel.findById(req.params.id, function(err, ticketmodel) {
-    if (!ticketmodel) res.status(404).send("Data is not found");
-    else ticketmodel.nic = req.body.nic;
-    ticketmodel
+BookingRoutes.route("/mybooking/update/:bid").post(function(req, res) {
+  BookingModel.findById(req.params.bid, function(err, bookingmodel) {
+    if (!bookingmodel) res.status(404).send("Data is not found");
+    else bookingmodel.nic = req.body.nic;
+    bookingmodel
       .save()
-      .then(ticketmodel => {
+      .then(bookingmodel => {
         res.json("Course Updated");
       })
       .catch(err => {
@@ -98,7 +98,7 @@ TicketRoutes.route("/update/:id").post(function(req, res) {
 });
 
 // Delete the TrainTicket
-TicketRoutes.route("/delete/:id").delete(function(req, res) {
+TicketRoutes.route("api/delete/:id").delete(function(req, res) {
   TicketModel.findOneAndDelete({ _id: req.params.id }, function(
     err,
     ticketmodel
