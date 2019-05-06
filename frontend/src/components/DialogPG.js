@@ -3,6 +3,15 @@ import React, { Component } from "react";
 import dialoglogo from "../resources/dialog.png";
 
 class DialogPG extends Component {
+  constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+  onSubmit(e) {
+    e.preventDefault();
+    this.props.history.push(`/thankyoumessage`);
+  }
+
   render() {
     return (
       <div style={{ backgroundColor: "#D3D3D3" }}>
@@ -24,7 +33,11 @@ class DialogPG extends Component {
 
               <h2> Dialog Payment Gateway </h2>
               <div className="card-body px-lg-5">
-                <form className="text-center" style={{ color: "#757575" }}>
+                <form
+                  className="text-center"
+                  style={{ color: "#757575" }}
+                  onSubmit={this.onSubmit}
+                >
                   <label> Mobile Number : </label>
                   <input
                     type="text"

@@ -4,6 +4,15 @@ import sampathbanklogo from "../resources/sampathbanklogo.jpg";
 import cvv from "../resources/cvv.png";
 
 class SampathBankPG extends Component {
+  constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+  onSubmit(e) {
+    e.preventDefault();
+    this.props.history.push(`/thankyoumessage`);
+  }
+
   render() {
     return (
       <div style={{ backgroundColor: "#D3D3D3" }}>
@@ -25,7 +34,11 @@ class SampathBankPG extends Component {
 
               <h2> Sampath Bank Payment Gateway </h2>
               <div className="card-body px-lg-5">
-                <form className="text-center" style={{ color: "#757575" }}>
+                <form
+                  className="text-center"
+                  style={{ color: "#757575" }}
+                  onSubmit={this.onSubmit}
+                >
                   <label> Name on Card : </label>
                   <input
                     type="text"

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 class GovermentEmployeeDis extends Component {
@@ -15,7 +16,7 @@ class GovermentEmployeeDis extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:4000/api2/mybooking" + this.props.match.params.id)
+      .get("http://localhost:4000/api2/mybooking/" + this.props.match.params.id)
       .then(response => {
         this.setState({
           nic: response.data.nic
@@ -26,24 +27,37 @@ class GovermentEmployeeDis extends Component {
       });
   }
 
+  getnic(e) {
+    var nic = document.getElementById("nic").value;
+    this.setState({
+      nic: e.target.value
+    });
+    console.log("nic : " + nic);
+
+    var getnic = localStorage.getItem("nicpass");
+    var displaynic = getnic;
+    alert("Inserted Data" + displaynic);
+
+    localStorage.removeItem("objectToPass"); // Clear the localStorage
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
-    e.preventDefault();
-    const updatedCourse = {
-      nic: this.state.nic
-    };
+    // const updatedCourse = {
+    //   nic: this.state.nic
+    // };
 
-    axios
-      .post(
-        "http://localhost:4000/api2/mybooking/update" +
-          this.props.match.params.id,
-        updatedCourse
-      )
-      .then(res => console.log(res.data));
+    // axios
+    //   .post(
+    //     "http://localhost:4000/api2/mybooking/update/" +
+    //       this.props.match.params.id,
+    //     updatedCourse
+    //   )
+    //   .then(res => console.log(res.data));
 
-    console.log(`Form Submitted: `);
-    console.log(`NIC: ${this.state.nic} `);
+    // console.log(`Form Submitted: `);
+    // console.log(`NIC: ${this.state.nic} `);
 
     // const newNIC = {
     //   nic: this.state.nic
@@ -56,20 +70,29 @@ class GovermentEmployeeDis extends Component {
     //   )
     //   .then(res => console.log(res.data));
 
-    this.setState({
-      nic: ""
-    });
-    this.props.history.push(`/book/step3`);
+    // this.setState({
+    //   nic: ""
+    // });
   }
 
-  getnic(e) {
-    var nic = document.getElementById("nic").value;
-    this.setState({
-      nic: e.target.value
-    });
-    console.log("nic : " + nic);
-  }
+  // onClick(e) {
+  //   e.preventDefault();
 
+  //   if (this.target.id === "next") {
+  //     alert("Next pressed");
+  //   } else {
+  //     alert("Go back pressed");
+  //   }
+  // }
+
+  onClick(e) {
+    e.preventDefault();
+    if (e.target.id === "next") {
+      alert(e.target.id);
+    } else {
+      alert(e.target.id);
+    }
+  }
   render() {
     return (
       <div style={{ backgroundColor: "#D3D3D3" }}>
@@ -82,13 +105,13 @@ class GovermentEmployeeDis extends Component {
               >
                 <strong style={{ color: "white" }}>
                   {" "}
-                  <h2> Looking for Discount ? </h2>
-                  <h6>
+                  <h2 style={{ color: "#66ff33" }}>
                     {" "}
-                    If you are a goverment employee you can get the discount
-                    from us.To get the discount enter your NIC number below. If
-                    you are not a goverment employee you cannot get discount. So
-                    leave it blank and continue.{" "}
+                    <b> CONGRATULATIONS </b>{" "}
+                  </h2>
+                  <h6>
+                    You have got the 20% discount from your total bill. Confirm
+                    your NIC number to reduce it from your bill.
                   </h6>
                   <br />
                 </strong>
@@ -98,7 +121,7 @@ class GovermentEmployeeDis extends Component {
                 <form
                   className="text-center"
                   style={{ color: "#757575" }}
-                  onSubmit={this.onSubmit}
+                  onSubmit={this.onClick}
                   name="myform"
                 >
                   <label> NIC Number : </label>
@@ -107,14 +130,47 @@ class GovermentEmployeeDis extends Component {
                     placeholder="NIC Number"
                     className="form-control mb-4"
                     id="nic"
-                    onChange={this.getnic}
                   />
-                  <button
+                  {/* <button
                     className="btn btn-outline-primary btn-rounded btn-block z-depth-0 my-4 waves-effect"
                     type="submit"
+                    id="next"
+                    onClick={this.onClick}
                   >
                     NEXT
                   </button>
+                  <button
+                    className="btn btn-outline-primary btn-rounded btn-block z-depth-0 my-4 waves-effect"
+                    type="submit"
+                    id="goback"
+                    onClick={this.onClick}
+                  >
+                    Go back
+                  </button> */}
+                  <Link
+                    to="/book/step3"
+                    style={{
+                      backgroundColor: "#39e600",
+                      color: "white",
+                      padding: 10,
+                      paddingRight: 25
+                    }}
+                  >
+                    {" "}
+                    CONFIRM{" "}
+                  </Link>
+                  <Link
+                    to="/book/step22"
+                    style={{
+                      backgroundColor: "#ff3300",
+                      color: "white",
+                      padding: 10,
+                      paddingRight: 25
+                    }}
+                  >
+                    {" "}
+                    GO BACK{" "}
+                  </Link>
                 </form>
               </div>
             </div>

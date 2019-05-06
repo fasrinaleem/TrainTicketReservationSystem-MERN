@@ -17,7 +17,7 @@ class TrainList extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:4000/trainticketrs/")
+      .get("http://localhost:4000/trainticketrs/api/tickets")
       .then(response => {
         this.setState({ traintickets: response.data });
       })

@@ -9,16 +9,20 @@ class PaymentMethod extends Component {
 
     console.log(`Form submitted:`);
 
-    this.setState({
-      method: this.state.value
-    });
+    // this.setState({
+    //   method: this.state.value
+    // });
 
-    if (this.state.method.value === "creditcard") {
-      this.props.history.push(`/book/step2`);
-    } else this.props.history.push(`/book/step4`);
+    if (e.target.id === "creditcard") {
+      // alert(e.target.id);
+      this.props.history.push(`/book/step4`);
+    } else this.props.history.push(`/book/step5`);
+    // } else {
+    //   alert(e.target.id);
+    // }
   };
 
-  checkPaymentmeth(e) {}
+  // checkPaymentmeth(e) {}
 
   render() {
     return (
@@ -42,11 +46,7 @@ class PaymentMethod extends Component {
               </h5>
 
               <div className="card-body px-lg-5">
-                <form
-                  className="text-center"
-                  style={{ color: "#757575" }}
-                  onSubmit={this.handleSubmit}
-                >
+                <form className="text-center" style={{ color: "#757575" }}>
                   <div className="custom-control custom-radio">
                     <input
                       type="radio"
@@ -54,6 +54,7 @@ class PaymentMethod extends Component {
                       id="creditcard"
                       name="defaultExampleRadios"
                       value="creditcard"
+                      onClick={this.handleSubmit}
                     />
                     <label className="custom-control-label" for="creditcard">
                       Credit Card
@@ -70,6 +71,7 @@ class PaymentMethod extends Component {
                       id="mobilenum"
                       name="defaultExampleRadios"
                       value="mobile"
+                      onClick={this.handleSubmit}
                       checked
                     />
                     <label className="custom-control-label" for="mobilenum">

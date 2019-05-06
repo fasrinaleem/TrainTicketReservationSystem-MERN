@@ -19,21 +19,21 @@ class TicketBooking extends Component {
       nooftickets: ""
     };
   }
-  componentDidMount() {
-    axios
-      .get("http://localhost:4000/trainticketrs/")
-      .then(response => {
-        this.setState({
-          source: response.data.source,
-          destination: response.data.destination,
-          nooftickets: response.data.nooftickets
-          //        year: response.data.year
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
+  // componentDidMount() {
+  //   axios
+  //     .get("http://localhost:4000/trainticketrs/api2/mybooking/addbooking")
+  //     .then(response => {
+  //       this.setState({
+  //         source: response.data.source,
+  //         destination: response.data.destination,
+  //         nooftickets: response.data.nooftickets
+  //         //        year: response.data.year
+  //       });
+  //     })
+  //     .catch(function(error) {
+  //       console.log(error);
+  //     });
+  // }
 
   // onChangeSource(e) {
   //   this.setState({
@@ -80,8 +80,8 @@ class TicketBooking extends Component {
       nooftickets: ""
     });
 
-    // this.props.history.push(`/book/step2`);
     this.props.history.push(`/book/step22`);
+    // this.props.history.push(`/book/step22/ + this.props.mybooking._id`);
   }
 
   checkSource(e) {
