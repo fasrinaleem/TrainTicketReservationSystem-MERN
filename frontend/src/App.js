@@ -10,6 +10,8 @@ import DialogPG from "./components/DialogPG";
 import GovEmployeeDis from "./components/GovermentEmployeeDiscount";
 import GovEmporNot from "./components/GovEmporNot";
 import ThankYouMessage from "./components/ThankYouMessage";
+import HomeSlider from "./components/HomeSlider";
+import TicketBooking from "./components/TicketBooking";
 
 import navImage from "./resources/navnew3.jpg";
 
@@ -25,14 +27,20 @@ function App() {
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav mr-auto">
             <li className="navbar-item">
-              <a href="#" />
+              <Link to="/" className="nav-link" style={{ color: "white" }}>
+                Home
+              </Link>
             </li>
           </ul>
         </div>
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav mr-auto">
             <li className="navbar-item">
-              <Link to="/" className="nav-link">
+              <Link
+                to="/trainlist"
+                className="nav-link"
+                style={{ color: "white" }}
+              >
                 Train Availability
               </Link>
             </li>
@@ -41,7 +49,11 @@ function App() {
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav mr-auto">
             <li className="navbar-item">
-              <Link to="/book" className="nav-link" style={{ color: "white" }}>
+              <Link
+                to="/booking"
+                className="nav-link"
+                style={{ color: "white" }}
+              >
                 Book Train Tickets
               </Link>
             </li>
@@ -49,8 +61,10 @@ function App() {
         </div>
       </nav>
       <Switch>
-        <Route path="/" exact component={TrainList} />
-        <Route path="/book" exact component={TicketBook} />
+        <Route path="/" exact component={HomeSlider} />
+        <Route path="/trainlist" exact component={TrainList} />
+        {/* <Route path="/book" exact component={TicketBook} /> */}
+        <Route path="/booking" exact component={TicketBooking} />
         {/* <Route path="/book/step22/:id" component={GovEmporNot} /> */}
         <Route path="/book/step22" component={GovEmporNot} />
         {/* <Route path="/book/update/:id" exact component={GovEmployeeDis} /> */}

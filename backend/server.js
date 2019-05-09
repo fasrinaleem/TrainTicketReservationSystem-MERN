@@ -7,9 +7,11 @@ const PORT = 4000;
 
 const TicketRoutes = express.Router();
 const BookingRoutes = express.Router();
+const EmployeeRoutes = express.Router();
 
 const TicketModel = require("./TrainTicketSchema");
 const BookingModel = require("./TicketBookingSchema");
+const EmployeeModel = require("./EmployeeSchema");
 
 mongoose
   .connect("mongodb://localhost/trainticketrs", { useNewUrlParser: true })
@@ -42,6 +44,29 @@ BookingRoutes.route("/mybooking").get(function(req, res) {
   });
 });
 
+//Get Employee details
+EmployeeRoutes.route("/employee/:findnic").post(function(req, res) {
+  const nic = req.body;
+  EmployeeModel.find(nic, function(err, trainticketrs) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(trainticketrs);
+    }
+  });
+});
+
+//to find the employee is there
+EmployeeRoutes.route("/employee").get(function(req, res) {
+  EmployeeModel.find(function(err, trainticketrs) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(trainticketrs);
+    }
+  });
+});
+
 TicketRoutes.route("/:tid").get(function(req, res) {
   let id = req.params.tid;
   TicketModel.findById(id, function(err, ticket) {
@@ -55,6 +80,13 @@ BookingRoutes.route("/:bid").get(function(req, res) {
     res.json(book);
   });
 });
+
+// EmployeeRoutes.route("/:findnic").get(function(req, res) {
+//   let id = req.params.findnic;
+//   EmployeeModel.find.body(id, function(err, book) {
+//     res.json(book);
+//   });
+// });
 
 //Add new Train Ticket Details to db
 TicketRoutes.route("/tickets/addticket").post(function(req, res) {
@@ -108,6 +140,18 @@ TicketRoutes.route("api/delete/:id").delete(function(req, res) {
   });
 });
 
+//Add Details to Employee
+EmployeeRoutes.route("/employee/addemployee").post(function(req, res) {
+  let Employee = new EmployeeModel(req.body);
+  Employee.save()
+    .then(Employee => {
+      res.status(200).json({ Employee: "Employee added successfully" });
+    })
+    .catch(err => {
+      res.status(400).send("Adding new Employee failed");
+    });
+});
+
 //Middlewares
 app.use(cors());
 app.use(bodyParser.json());
@@ -115,6 +159,7 @@ app.use(bodyParser.json());
 //Middlewares
 app.use("/trainticketrs/api/", TicketRoutes);
 app.use("/trainticketrs/api2/", BookingRoutes);
+app.use("/trainticketrs/api3/", EmployeeRoutes);
 
 app.listen(PORT, function() {
   console.log("Server is running on port : " + PORT);

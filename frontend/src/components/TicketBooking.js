@@ -4,6 +4,10 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 import GovermentEmployeeDis from "./GovermentEmployeeDiscount";
 
+export const SOURCE = "SOURCE";
+export const DESTINATION = "DESTINATION";
+export const NOOFTICKETS = "NOOFTICKETS";
+
 class TicketBooking extends Component {
   constructor(props) {
     super(props);
@@ -11,7 +15,8 @@ class TicketBooking extends Component {
     this.checkSource = this.checkSource.bind(this);
     this.checkDestination = this.checkDestination.bind(this);
     this.checkTickets = this.checkTickets.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    // this.onSubmit = this.onSubmit.bind(this);
+    this.storeDetails = this.storeDetails.bind(this);
 
     this.state = {
       source: "",
@@ -53,36 +58,35 @@ class TicketBooking extends Component {
   //   });
   // }
 
-  onSubmit(e) {
-    e.preventDefault();
+  // onSubmit(e) {
+  //   e.preventDefault();
 
-    console.log(`Form Submitted: `);
-    console.log(`Source: ${this.state.source} `);
-    console.log(`Destination: ${this.state.destination} `);
-    console.log(`NoofTickets: ${this.state.nooftickets} `);
+  //   console.log(`Form Submitted: `);
+  //   console.log(`Source: ${this.state.source} `);
+  //   console.log(`Destination: ${this.state.destination} `);
+  //   console.log(`NoofTickets: ${this.state.nooftickets} `);
 
-    const newBooking = {
-      source: this.state.source,
-      destination: this.state.destination,
-      nooftickets: this.state.nooftickets
-    };
+  //   // const newBooking = {
+  //   //   source: this.state.source,
+  //   //   destination: this.state.destination,
+  //   //   nooftickets: this.state.nooftickets
+  //   // };
 
-    axios
-      .post(
-        "http://localhost:4000/trainticketrs/api2/mybooking/addbooking",
-        newBooking
-      )
-      .then(res => console.log(res.data));
+  //   // axios
+  //   //   .post(
+  //   //     "http://localhost:4000/trainticketrs/api2/mybooking/addbooking",
+  //   //     newBooking
+  //   //   )
+  //   //   .then(res => console.log(res.data));
 
-    this.setState({
-      source: "",
-      destination: "",
-      nooftickets: ""
-    });
+  //   this.setState({
+  //     source: "",
+  //     destination: "",
+  //     nooftickets: ""
+  //   });
 
-    this.props.history.push(`/book/step22`);
-    // this.props.history.push(`/book/step22/ + this.props.mybooking._id`);
-  }
+  //   this.props.history.push(`/book/step22`);
+  // }
 
   checkSource(e) {
     var soList = document.getElementById("soList").value;
@@ -106,6 +110,26 @@ class TicketBooking extends Component {
     console.log("No of Tickets : " + tickets);
   }
 
+  storeDetails(e) {
+    e.preventDefault();
+
+    let source = this.state.source;
+    let destination = this.state.destination;
+    let nooftickets = this.state.nooftickets;
+
+    if (source !== "") {
+      sessionStorage.setItem(SOURCE, source);
+    }
+    if (destination !== "") {
+      sessionStorage.setItem(DESTINATION, destination);
+    }
+    if (nooftickets !== "") {
+      sessionStorage.setItem(NOOFTICKETS, nooftickets);
+    }
+
+    this.props.history.push(`/book/step22`);
+  }
+
   render() {
     return (
       <Router>
@@ -127,7 +151,7 @@ class TicketBooking extends Component {
                   <form
                     className="text-center"
                     style={{ color: "#757575" }}
-                    onSubmit={this.onSubmit}
+                    onSubmit={this.storeDetails}
                   >
                     <label> From : </label>
                     <select

@@ -13,15 +13,28 @@ import axios from "axios";
 //   </tr>
 // );
 
+export const NIC = "NIC";
+
 export class Book extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      nic: ""
+    };
+    this.onSend = this.onSend.bind.value;
   }
 
   handleClickEvent = e => {
     e.preventDefault();
     this.props.handleClick(e);
   };
+  onSend(e) {
+    e.preventDefault();
+    this.setState({
+      nic: e.target.value
+    });
+    console.log(e.target.value);
+  }
 
   render() {
     return (
@@ -69,7 +82,8 @@ export default class GovEmporNot extends Component {
     this.state = {
       bookings: [],
       isYesClicked: false,
-      isNoClicked: false
+      isNoClicked: false,
+      nic: ""
     };
   }
 
@@ -100,6 +114,45 @@ export default class GovEmporNot extends Component {
     // });
     return <Book handleClick={this.handleOnClick} />;
   }
+
+  handleNICChange = e => {
+    let nic = e.target.value;
+    if (nic !== "") {
+      this.setState({ nic: nic });
+    }
+  };
+
+  handleSendClick = e => {
+    // e.preventDefault();
+    let nic = this.state.nic;
+
+    if (nic !== "") {
+      sessionStorage.setItem(NIC, nic);
+
+      // verifying the employee availability
+      fetch("http://localhost:4000/trainticketrs/api3/employee/:findnic", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          nic: this.state.nic
+        })
+      })
+        .then(response => {
+          // response.json();
+          console.log("response: " + response);
+        })
+        // .then(json => {
+        //   console.log(json);
+        // })
+        .catch(err => {
+          console.log("error: " + err);
+        });
+
+      this.props.history.push(`/book/step222`);
+    }
+  };
 
   // getnic(e) {
   //   var form = document.getElementById("formid");
@@ -152,10 +205,11 @@ export default class GovEmporNot extends Component {
                         name="nic"
                         id="nic"
                         placeholder="Enter NIC Number Here"
-                        onChange={this.getnic}
+                        value={this.props.nic}
+                        onChange={this.handleNICChange}
                         style={{
                           backgroundColor: "#d9ffcc",
-                          color: "white",
+                          color: "black",
                           padding: 5,
                           paddingRight: 25
                         }}
@@ -168,6 +222,7 @@ export default class GovEmporNot extends Component {
                           padding: 5,
                           paddingRight: 25
                         }}
+                        onClick={this.handleSendClick}
                       >
                         {" "}
                         Send{" "}

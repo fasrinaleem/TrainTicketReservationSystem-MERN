@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { NIC } from "./GovEmporNot";
 
 class GovermentEmployeeDis extends Component {
   constructor(props) {
@@ -25,6 +26,8 @@ class GovermentEmployeeDis extends Component {
       .catch(function(error) {
         console.log(error);
       });
+
+    this.setState({ nic: sessionStorage.getItem(NIC) });
   }
 
   getnic(e) {
@@ -38,7 +41,7 @@ class GovermentEmployeeDis extends Component {
     var displaynic = getnic;
     alert("Inserted Data" + displaynic);
 
-    localStorage.removeItem("objectToPass"); // Clear the localStorage
+    //  localStorage.removeItem("objectToPass"); // Clear the localStorage
   }
 
   onSubmit(e) {
@@ -85,14 +88,14 @@ class GovermentEmployeeDis extends Component {
   //   }
   // }
 
-  onClick(e) {
-    e.preventDefault();
-    if (e.target.id === "next") {
-      alert(e.target.id);
-    } else {
-      alert(e.target.id);
-    }
-  }
+  // onClick(e) {
+  //   e.preventDefault();
+  //   if (e.target.id === "next") {
+  //     alert(e.target.id);
+  //   } else {
+  //     alert(e.target.id);
+  //   }
+  // }
   render() {
     return (
       <div style={{ backgroundColor: "#D3D3D3" }}>
@@ -121,8 +124,8 @@ class GovermentEmployeeDis extends Component {
                 <form
                   className="text-center"
                   style={{ color: "#757575" }}
-                  onSubmit={this.onClick}
-                  name="myform"
+                  // onSubmit={this.onClick}
+                  //  name="myform"
                 >
                   <label> NIC Number : </label>
                   <input
@@ -130,6 +133,8 @@ class GovermentEmployeeDis extends Component {
                     placeholder="NIC Number"
                     className="form-control mb-4"
                     id="nic"
+                    value={this.state.nic}
+                    readOnly
                   />
                   {/* <button
                     className="btn btn-outline-primary btn-rounded btn-block z-depth-0 my-4 waves-effect"
