@@ -15,6 +15,7 @@ class TrainList extends Component {
     this.state = { traintickets: [] };
   }
 
+  //Get the train ticket details from the database
   componentDidMount() {
     axios
       .get("http://localhost:4000/trainticketrs/api/tickets")
@@ -26,6 +27,7 @@ class TrainList extends Component {
       });
   }
 
+  //If any updates made page will automatically reload and display the updated data
   componentDidUpdate() {
     axios
       .get("http://localhost:4000/trainticketrs/api/tickets")

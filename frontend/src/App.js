@@ -2,18 +2,22 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
+//importing the components
 import TrainList from "./components/TrainList";
-import TicketBook from "./components/TicketBooking";
 import PaymentMethod from "./components/PaymentMethod";
 import SampathBankPG from "./components/SampathBankPG";
 import DialogPG from "./components/DialogPG";
-import GovEmployeeDis from "./components/GovermentEmployeeDiscount";
+import GovEmpNIC from "./components/ConfirmGovEmpNIC";
 import GovEmporNot from "./components/GovEmporNot";
+import NotGovEmp from "./components/NotGovEmp";
 import ThankYouMessage from "./components/ThankYouMessage";
 import HomeSlider from "./components/HomeSlider";
 import TicketBooking from "./components/TicketBooking";
+import EmailandPhone from "./components/EnterEmailandPhone";
 
+//importing the images
 import navImage from "./resources/navnew3.jpg";
+import trainicon from "./resources/trainicon.png";
 
 function App() {
   return (
@@ -60,20 +64,35 @@ function App() {
           </ul>
         </div>
       </nav>
+
+      {/* Switching between components */}
       <Switch>
         <Route path="/" exact component={HomeSlider} />
         <Route path="/trainlist" exact component={TrainList} />
-        {/* <Route path="/book" exact component={TicketBook} /> */}
         <Route path="/booking" exact component={TicketBooking} />
-        {/* <Route path="/book/step22/:id" component={GovEmporNot} /> */}
-        <Route path="/book/step22" component={GovEmporNot} />
-        {/* <Route path="/book/update/:id" exact component={GovEmployeeDis} /> */}
-        <Route path="/book/step222" exact component={GovEmployeeDis} />
-        <Route path="/book/step3" exact component={PaymentMethod} />
-        <Route path="/book/step4" exact component={SampathBankPG} />
-        <Route path="/book/step5" exact component={DialogPG} />
+        <Route path="/govempornot" component={GovEmporNot} />
+        <Route path="/govempdis" exact component={GovEmpNIC} />
+        <Route path="/notgovemp" exact component={NotGovEmp} />
+        <Route path="/paymentmethod" exact component={PaymentMethod} />
+        <Route path="/sampathbankpg" exact component={SampathBankPG} />
+        <Route path="/dialogpg" exact component={DialogPG} />
+        <Route path="/enteremailandphone" exact component={EmailandPhone} />
         <Route path="/thankyoumessage" exact component={ThankYouMessage} />
       </Switch>
+      <div
+        className="footer"
+        style={{ backgroundColor: "#A9A9A9", width: 1350 }}
+      >
+        <center>
+          {" "}
+          <div>
+            <img src={trainicon} width="40" />{" "}
+          </div>{" "}
+          <span style={{ color: "black" }}>
+            All Rights Reserved. Fasrin Aleem
+          </span>
+        </center>
+      </div>
     </Router>
   );
 }

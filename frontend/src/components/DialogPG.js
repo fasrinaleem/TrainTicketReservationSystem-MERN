@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+//import image
 import dialoglogo from "../resources/dialog.png";
 
 class DialogPG extends Component {
@@ -9,7 +10,7 @@ class DialogPG extends Component {
   }
   onSubmit(e) {
     e.preventDefault();
-    this.props.history.push(`/thankyoumessage`);
+    this.props.history.push(`/enteremailandphone`);
   }
 
   render() {

@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { Slide } from "react-slideshow-image";
 
+//importing the images
 import slide1 from "../resources/slider1.jpg";
 import slide2 from "../resources/slider3.jpg";
 import slide3 from "../resources/slider11.jpg";
 
+//save it to an array
 const slideImages = [slide1, slide2, slide3];
 
+//slider properties
 const properties = {
   duration: 5000,
   transitionDuration: 500,

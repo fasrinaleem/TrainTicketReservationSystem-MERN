@@ -2,17 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-// const Book = props => (
-//   <tr>
-//     <td>
-//       {/* <Link to={"/update/" + props.mybooking._id}> Yes </Link> */}
-//       <Link to={"/book/step222"} > Yes </Link>
-//       {/* <Link to={"update/:id"}> Yes </Link> */}
-//       <Link to={"/book/step3"}> No </Link>
-//     </td>
-//   </tr>
-// );
-
+//export the NIC
 export const NIC = "NIC";
 
 export class Book extends Component {
@@ -24,6 +14,7 @@ export class Book extends Component {
     this.onSend = this.onSend.bind.value;
   }
 
+  //handling the click event
   handleClickEvent = e => {
     e.preventDefault();
     this.props.handleClick(e);
@@ -41,7 +32,7 @@ export class Book extends Component {
       <tr>
         <td>
           <Link
-            to={"/book/step222"}
+            to={"/govempdis"}
             value="yes"
             onClick={this.handleClickEvent}
             id="yes"
@@ -56,7 +47,7 @@ export class Book extends Component {
             Yes{" "}
           </Link>
           <Link
-            to={"/book/step3"}
+            to={"/paymentmethod"}
             value="no"
             id="no"
             onClick={this.handleClickEvent}
@@ -87,31 +78,19 @@ export default class GovEmporNot extends Component {
     };
   }
 
-  componentDidMount() {
-    axios
-      .get("http://localhost:4000/trainticketrs/api2/mybooking/")
-      .then(response => {
-        this.setState({ bookings: response.data });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
-
+  //handle the click event if yes clicked then input textfield will appear
+  //if no clicked then go to paymentmethod component
   handleOnClick = e => {
     e.preventDefault();
     if (e.target.id === "yes") {
       this.setState({ isYesClicked: true });
     } else {
       this.setState({ isYesClicked: false });
-      this.props.history.push(`/book/step3`);
+      this.props.history.push(`/paymentmethod`);
     }
   };
 
   bookList() {
-    // return this.state.bookings.map(function(currentBooking, i) {
-    //   return <Book mybooking={currentBooking} key={i} />;
-    // });
     return <Book handleClick={this.handleOnClick} />;
   }
 
@@ -123,46 +102,39 @@ export default class GovEmporNot extends Component {
   };
 
   handleSendClick = e => {
-    // e.preventDefault();
+    //store the state value into variable
     let nic = this.state.nic;
 
+    //if nic is not equal to empty store the NIC into session storage
     if (nic !== "") {
       sessionStorage.setItem(NIC, nic);
 
       // verifying the employee availability
-      fetch("http://localhost:4000/trainticketrs/api3/employee/:findnic", {
-        method: "POST",
+      fetch("http://localhost:4000/sms/nic", {
+        method: "GET",
         headers: {
-          "content-type": "application/json"
-        },
-        body: JSON.stringify({
-          nic: this.state.nic
-        })
+          "content-type": "application/json",
+          nic: nic
+        }
       })
         .then(response => {
           // response.json();
           console.log("response: " + response);
+          return response.json();
         })
-        // .then(json => {
-        //   console.log(json);
-        // })
+        .then(json => {
+          if (json === null) this.props.history.push(`/notgovemp`);
+          else this.props.history.push(`/govempdis`);
+          console.log(json);
+        })
         .catch(err => {
           console.log("error: " + err);
         });
-
-      this.props.history.push(`/book/step222`);
+    } else {
+      alert("NIC Field is empty");
+      console.log("NIC Field is empty");
     }
   };
-
-  // getnic(e) {
-  //   var form = document.getElementById("formid");
-  //   form.addEventListener("submit", function() {
-  //     var nic = document.getElementById("nic").value;
-  //     localStorage.setItem("nicpass", nic);
-
-  //     window.location = "NEW URL";
-  //   });
-  // }
 
   render() {
     return (
@@ -190,11 +162,6 @@ export default class GovEmporNot extends Component {
 
               <form id="formid">
                 <div className="card-body p-lg-5">
-                  {/* <Link to={"/mybooking/update/" + props.mybooking._id}>
-                  {" "}
-                  Yes{" "}
-                </Link>
-                <Link to={"/book/step3"}> No </Link> */}
                   <table>
                     <tbody>{this.bookList()}</tbody>
                   </table>
@@ -215,7 +182,6 @@ export default class GovEmporNot extends Component {
                         }}
                       />
                       <Link
-                        to={"/book/step222"}
                         style={{
                           backgroundColor: "#39e600",
                           color: "white",

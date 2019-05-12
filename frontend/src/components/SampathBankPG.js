@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+//importing the images
 import sampathbanklogo from "../resources/sampathbanklogo.jpg";
 import cvv from "../resources/cvv.png";
 
@@ -10,7 +11,7 @@ class SampathBankPG extends Component {
   }
   onSubmit(e) {
     e.preventDefault();
-    this.props.history.push(`/thankyoumessage`);
+    this.props.history.push(`/enteremailandphone`);
   }
 
   render() {

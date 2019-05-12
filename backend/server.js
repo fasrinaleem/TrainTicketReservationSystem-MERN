@@ -8,6 +8,7 @@ const PORT = 4000;
 const TicketRoutes = express.Router();
 const BookingRoutes = express.Router();
 const EmployeeRoutes = express.Router();
+const NICRoutes = express.Router();
 
 const TicketModel = require("./TrainTicketSchema");
 const BookingModel = require("./TicketBookingSchema");
@@ -21,6 +22,72 @@ mongoose
   .catch(err => {
     console.log(err.message);
   });
+
+NICRoutes.route("/nic").get(cors(), function(req, res) {
+  const MongoClient = require("mongodb").MongoClient;
+  const assert = require("assert");
+
+  const url = "mongodb://localhost:27017";
+
+  // Database Name
+  const dbName = "trainticketrs";
+
+  const client = new MongoClient(url);
+
+  client.connect(function(err) {
+    assert.equal(null, err);
+    console.log("Connected successfully to server");
+
+    const db = client.db(dbName);
+
+    async function insertEmp() {
+      await db.collection("employee").insertMany([
+        {
+          name: "Fasrin",
+          nic: "971590432V",
+          discount: 0.1
+        },
+        {
+          name: "Ishan",
+          nic: "971483393V",
+          discount: 0.1
+        }
+      ]);
+    }
+    insertEmp();
+    console.log("Employee Details Added Successfully");
+  });
+
+  client.connect(function(err, db) {
+    assert.equal(null, err);
+
+    const dbo = client.db(dbName);
+    const collection = dbo.collection("employee");
+
+    console.log("nic: " + req.header("nic"));
+
+    collection
+      .find({ nic: req.header("nic") })
+      .limit(1)
+      .next(function(err, data) {
+        assert.equal(err, null);
+        res.json(data);
+      });
+  });
+
+  // Connection URL
+});
+app.use("/sms/", NICRoutes);
+
+NICRoutes.route("/nic/").options(cors(), function(req, res) {
+  res.header("Access-Control-Allow-Origin", req.header("Origin"));
+  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "content-type, nic");
+
+  console.log("request header: " + req.header("Origin"));
+
+  return res;
+});
 
 //Get all Train Ticket details
 TicketRoutes.route("/tickets").get(function(req, res) {
@@ -130,8 +197,8 @@ BookingRoutes.route("/mybooking/update/:bid").post(function(req, res) {
 });
 
 // Delete the TrainTicket
-TicketRoutes.route("api/delete/:id").delete(function(req, res) {
-  TicketModel.findOneAndDelete({ _id: req.params.id }, function(
+TicketRoutes.route("/api/delete/:tid").delete(function(req, res) {
+  TicketModel.findOneAndDelete({ _id: req.params.tid }, function(
     err,
     ticketmodel
   ) {

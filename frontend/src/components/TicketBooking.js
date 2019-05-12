@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import GovermentEmployeeDis from "./GovermentEmployeeDiscount";
-
+//export the variable to access from other components
 export const SOURCE = "SOURCE";
 export const DESTINATION = "DESTINATION";
 export const NOOFTICKETS = "NOOFTICKETS";
@@ -15,78 +13,20 @@ class TicketBooking extends Component {
     this.checkSource = this.checkSource.bind(this);
     this.checkDestination = this.checkDestination.bind(this);
     this.checkTickets = this.checkTickets.bind(this);
-    // this.onSubmit = this.onSubmit.bind(this);
     this.storeDetails = this.storeDetails.bind(this);
 
+    //Equal the state to empty
     this.state = {
       source: "",
       destination: "",
       nooftickets: ""
     };
   }
-  // componentDidMount() {
-  //   axios
-  //     .get("http://localhost:4000/trainticketrs/api2/mybooking/addbooking")
-  //     .then(response => {
-  //       this.setState({
-  //         source: response.data.source,
-  //         destination: response.data.destination,
-  //         nooftickets: response.data.nooftickets
-  //         //        year: response.data.year
-  //       });
-  //     })
-  //     .catch(function(error) {
-  //       console.log(error);
-  //     });
-  // }
 
-  // onChangeSource(e) {
-  //   this.setState({
-  //     source: e.target.value
-  //   });
-  // }
+  //get the input data and store it on variable and
+  //display the input data value in console
 
-  // onChangeDestination(e) {
-  //   this.setState({
-  //     destination: e.target.value
-  //   });
-  // }
-
-  // onChangeTickets(e) {
-  //   this.setState({
-  //     nooftickets: e.target.value
-  //   });
-  // }
-
-  // onSubmit(e) {
-  //   e.preventDefault();
-
-  //   console.log(`Form Submitted: `);
-  //   console.log(`Source: ${this.state.source} `);
-  //   console.log(`Destination: ${this.state.destination} `);
-  //   console.log(`NoofTickets: ${this.state.nooftickets} `);
-
-  //   // const newBooking = {
-  //   //   source: this.state.source,
-  //   //   destination: this.state.destination,
-  //   //   nooftickets: this.state.nooftickets
-  //   // };
-
-  //   // axios
-  //   //   .post(
-  //   //     "http://localhost:4000/trainticketrs/api2/mybooking/addbooking",
-  //   //     newBooking
-  //   //   )
-  //   //   .then(res => console.log(res.data));
-
-  //   this.setState({
-  //     source: "",
-  //     destination: "",
-  //     nooftickets: ""
-  //   });
-
-  //   this.props.history.push(`/book/step22`);
-  // }
+  //store the input data into states
 
   checkSource(e) {
     var soList = document.getElementById("soList").value;
@@ -110,6 +50,9 @@ class TicketBooking extends Component {
     console.log("No of Tickets : " + tickets);
   }
 
+  //store the state value into variable
+  //check if state is not equal to empty if not then save
+  //that data into session storage
   storeDetails(e) {
     e.preventDefault();
 
@@ -127,7 +70,8 @@ class TicketBooking extends Component {
       sessionStorage.setItem(NOOFTICKETS, nooftickets);
     }
 
-    this.props.history.push(`/book/step22`);
+    //go to another component when storeMethod is called
+    this.props.history.push(`/govempornot`);
   }
 
   render() {

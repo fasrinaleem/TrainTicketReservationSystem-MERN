@@ -5,37 +5,23 @@ import masterlogo from "../resources/masterlogo.png";
 import { SOURCE, DESTINATION, NOOFTICKETS } from "./TicketBooking";
 
 class PaymentMethod extends Component {
-  // handleSubmit = e => {
-  //   e.preventDefault();
-
-  //   console.log(`Form submitted:`);
-
-  //   // this.setState({
-  //   //   method: this.state.value
-  //   // });
-
-  //   if (e.target.id === "creditcard") {
-  //     // alert(e.target.id);
-  //     this.props.history.push(`/book/step4`);
-  //   } else this.props.history.push(`/book/step5`);
-  //   // } else {
-  //   //   alert(e.target.id);
-  //   // }
-  // };
-
   constructor(props) {
     super(props);
     this.state = {
       method: "",
       source: "",
       destination: "",
-      nooftickets: ""
+      nooftickets: "",
+      discounts: "",
+      total: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
+    //setting the state value to session storage value
+
     this.setState({ source: sessionStorage.getItem(SOURCE) });
     this.setState({ destination: sessionStorage.getItem(DESTINATION) });
     this.setState({ nooftickets: sessionStorage.getItem(NOOFTICKETS) });
@@ -51,9 +37,9 @@ class PaymentMethod extends Component {
     let method = this.state.method;
 
     if (method === "creditcard") {
-      this.props.history.push(`/book/step4`);
+      this.props.history.push(`/sampathbankpg`);
     } else if (method === "mobile") {
-      this.props.history.push(`/book/step5`);
+      this.props.history.push(`/dialogpg`);
     }
   }
 
@@ -105,7 +91,7 @@ class PaymentMethod extends Component {
                     Your Total Bill :{" "}
                     <input
                       type="text"
-                      value={this.state.nooftickets * 10}
+                      value={this.state.total}
                       readOnly
                       style={{ backgroundColor: "#80aaff" }}
                     />
@@ -145,7 +131,6 @@ class PaymentMethod extends Component {
                       id="mobilenum"
                       name="method"
                       value="mobile"
-                      //  onClick={this.handleSubmit}
                       onChange={this.handleChange}
                     />
                     <label className="custom-control-label" for="mobilenum">
