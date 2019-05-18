@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import thankyouimg from "../resources/back7edit.jpg";
+import { EMAIL, MOBILE } from "./EnterEmailandPhone";
+import { json } from "body-parser";
 
 class ThankYouMessage extends Component {
   render() {

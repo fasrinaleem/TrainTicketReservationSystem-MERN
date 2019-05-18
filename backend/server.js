@@ -9,11 +9,18 @@ const TicketRoutes = express.Router();
 const BookingRoutes = express.Router();
 const EmployeeRoutes = express.Router();
 const NICRoutes = express.Router();
+const EmailRoutes = express.Router();
+const SMSRoutes = express.Router();
 
 const TicketModel = require("./TrainTicketSchema");
 const BookingModel = require("./TicketBookingSchema");
 const EmployeeModel = require("./EmployeeSchema");
+const Email = require("./EmailSender");
+const SMS = require("./SMSSender");
 
+app.use(bodyParser.json());
+
+//connecting to database
 mongoose
   .connect("mongodb://localhost/trainticketrs", { useNewUrlParser: true })
   .then(() => {
@@ -23,6 +30,39 @@ mongoose
     console.log(err.message);
   });
 
+EmailRoutes.route("/sendemail").post(cors(), (req, res) => {
+  console.log("In the route: " + req.body);
+  Email.sendEmail(req.body);
+  res.json(req.body);
+});
+
+EmailRoutes.route("/sendemail").options(cors(), (req, res) => {
+  res.header("Access-Control-Allow-Origin", req.header("Origin"));
+  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "content-type");
+
+  console.log("request header: " + req.header("Origin"));
+});
+
+app.use("/trainticketrs/api4/", EmailRoutes);
+
+SMSRoutes.route("/sendsms").post(cors(), (req, res) => {
+  SMS.sendSMS(req.body);
+  res.json(req.body);
+});
+
+SMSRoutes.route("/sendsms").options(cors(), (req, res) => {
+  res.header("Access-Control-Allow-Origin", req.header("Origin"));
+  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "content-type");
+
+  console.log("request header: " + req.header("Origin"));
+});
+
+app.use("/trainticketrs/api5/", SMSRoutes);
+
+//Finding the nic from the database to check whether
+//he/she is goverment employee or not
 NICRoutes.route("/nic").get(cors(), function(req, res) {
   const MongoClient = require("mongodb").MongoClient;
   const assert = require("assert");
@@ -34,12 +74,14 @@ NICRoutes.route("/nic").get(cors(), function(req, res) {
 
   const client = new MongoClient(url);
 
+  //Connecting to mongodb server
   client.connect(function(err) {
     assert.equal(null, err);
     console.log("Connected successfully to server");
 
     const db = client.db(dbName);
 
+    //Add goverment empoyees details to employee table
     async function insertEmp() {
       await db.collection("employee").insertMany([
         {
@@ -77,6 +119,7 @@ NICRoutes.route("/nic").get(cors(), function(req, res) {
 
   // Connection URL
 });
+
 app.use("/sms/", NICRoutes);
 
 NICRoutes.route("/nic/").options(cors(), function(req, res) {
@@ -89,7 +132,7 @@ NICRoutes.route("/nic/").options(cors(), function(req, res) {
   return res;
 });
 
-//Get all Train Ticket details
+//Get all Train Ticket details from tickets table
 TicketRoutes.route("/tickets").get(function(req, res) {
   TicketModel.find(function(err, trainticketrs) {
     if (err) {
@@ -100,7 +143,7 @@ TicketRoutes.route("/tickets").get(function(req, res) {
   });
 });
 
-//Get Booking details
+//Get Booking details from mybooking table
 BookingRoutes.route("/mybooking").get(function(req, res) {
   BookingModel.find(function(err, trainticketrs) {
     if (err) {
