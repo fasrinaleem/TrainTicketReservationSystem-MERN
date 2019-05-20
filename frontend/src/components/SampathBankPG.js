@@ -3,12 +3,23 @@ import React, { Component } from "react";
 //importing the images
 import sampathbanklogo from "../resources/sampathbanklogo.jpg";
 import cvv from "../resources/cvv.png";
+import { TOTAL } from "./PaymentMethod";
 
 class SampathBankPG extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.state = {
+      total: ""
+    };
   }
+
+  componentDidMount() {
+    this.setState({
+      total: sessionStorage.getItem(TOTAL)
+    });
+  }
+
   onSubmit(e) {
     e.preventDefault();
     this.props.history.push(`/enteremailandphone`);
@@ -26,7 +37,7 @@ class SampathBankPG extends Component {
               >
                 <strong style={{ color: "white" }}>
                   {" "}
-                  <h2> Your Bill : </h2>
+                  <h2> Your Bill : {this.state.total} </h2>
                 </strong>
               </h5>
               <div className="logo">
@@ -72,6 +83,8 @@ class SampathBankPG extends Component {
                     type="text"
                     placeholder=""
                     className="form-control mb-4"
+                    value={this.state.total}
+                    readOnly
                   />
                   <button
                     className="btn btn-outline-primary btn-rounded btn-block z-depth-0 my-4 waves-effect"

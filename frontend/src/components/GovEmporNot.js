@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { SOURCE, DESTINATION, NOOFTICKETS } from "./TicketBooking";
+
+export const TOTALAMMOUNT = "TOTALAMMOUNT";
 
 //export the NIC
 export const NIC = "NIC";
@@ -9,9 +12,23 @@ export class Book extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nic: ""
+      nic: "",
+      total: ""
     };
     this.onSend = this.onSend.bind.value;
+    this.calPay = this.calPay.bind(this);
+  }
+
+  calPay(e) {
+    let total = this.state.total;
+
+    if (SOURCE === "Badulla" && DESTINATION === "COLOMBO") {
+      this.setState({ total: NOOFTICKETS * 370 });
+      sessionStorage.setItem(TOTALAMMOUNT, total);
+    } else if (SOURCE === "Badulla" && DESTINATION === "COLOMBO") {
+      this.setState({ total: NOOFTICKETS * 50 });
+      sessionStorage.setItem(TOTALAMMOUNT, total);
+    }
   }
 
   //handling the click event

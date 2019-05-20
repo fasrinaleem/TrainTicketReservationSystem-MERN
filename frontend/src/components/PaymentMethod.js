@@ -3,6 +3,9 @@ import React, { Component } from "react";
 import visalogo from "../resources/visalogo.png";
 import masterlogo from "../resources/masterlogo.png";
 import { SOURCE, DESTINATION, NOOFTICKETS } from "./TicketBooking";
+import { TOTALAMMOUNT } from "./GovEmporNot";
+
+export const TOTAL = "TOTAL";
 
 class PaymentMethod extends Component {
   constructor(props) {
@@ -25,12 +28,24 @@ class PaymentMethod extends Component {
     this.setState({ source: sessionStorage.getItem(SOURCE) });
     this.setState({ destination: sessionStorage.getItem(DESTINATION) });
     this.setState({ nooftickets: sessionStorage.getItem(NOOFTICKETS) });
+    // this.setState({ total: sessionStorage.getItem(NOOFTICKETS) * 340 });
+    this.setState({
+      discounts: sessionStorage.getItem(NOOFTICKETS) * 340 * (10 / 100)
+    });
+    this.setState({
+      total:
+        sessionStorage.getItem(NOOFTICKETS) * 340 -
+        sessionStorage.getItem(NOOFTICKETS) * 340 * (10 / 100)
+    });
   }
 
   handleChange(e) {
     this.setState({
       method: e.target.value
     });
+
+    let total = this.state.total;
+    sessionStorage.setItem(TOTAL, total);
   }
   handleSubmit(e) {
     e.preventDefault();
@@ -78,7 +93,7 @@ class PaymentMethod extends Component {
                   </h6>
                   <h6>
                     {" "}
-                    No of tickets :{" "}
+                    No of Tickets :{" "}
                     <input
                       type="text"
                       value={this.state.nooftickets}
@@ -86,6 +101,16 @@ class PaymentMethod extends Component {
                       style={{ backgroundColor: "#80aaff" }}
                     />
                   </h6>{" "}
+                  <h6>
+                    {" "}
+                    Your Discounts :{" "}
+                    <input
+                      type="text"
+                      value={this.state.discounts}
+                      readOnly
+                      style={{ backgroundColor: "#80aaff" }}
+                    />
+                  </h6>
                   <h6>
                     {" "}
                     Your Total Bill :{" "}

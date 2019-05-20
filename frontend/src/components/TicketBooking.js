@@ -60,18 +60,38 @@ class TicketBooking extends Component {
     let destination = this.state.destination;
     let nooftickets = this.state.nooftickets;
 
-    if (source !== "") {
+    //Validating the source, If validated store the data to sessionStorage.
+    if (source === "") {
+      alert("SOURCE cannot be empty");
+      //Redirect the same component when storeMethod is called
+      this.props.history.push(`/booking`);
+    } else if (source !== "") {
       sessionStorage.setItem(SOURCE, source);
-    }
-    if (destination !== "") {
-      sessionStorage.setItem(DESTINATION, destination);
-    }
-    if (nooftickets !== "") {
-      sessionStorage.setItem(NOOFTICKETS, nooftickets);
+      //go to another component when storeMethod is called
+      this.props.history.push(`/govempornot`);
     }
 
-    //go to another component when storeMethod is called
-    this.props.history.push(`/govempornot`);
+    //Validating the destination, If validated store the data to sessionStorage.
+    if (destination === "") {
+      alert("DESTINATION cannot be empty");
+      //Redirect the same component when storeMethod is called
+      this.props.history.push(`/booking`);
+    } else if (destination !== "") {
+      sessionStorage.setItem(DESTINATION, destination);
+      //go to another component when storeMethod is called
+      this.props.history.push(`/govempornot`);
+    }
+
+    //Validating the nooftickets, If validated store the data to sessionStorage.
+    if (nooftickets === "") {
+      alert("NO OF TICKETS cannot be empty");
+      //Redirect the same component when storeMethod is called
+      this.props.history.push(`/booking`);
+    } else if (nooftickets !== "") {
+      sessionStorage.setItem(NOOFTICKETS, nooftickets);
+      //go to another component when storeMethod is called
+      this.props.history.push(`/govempornot`);
+    }
   }
 
   render() {

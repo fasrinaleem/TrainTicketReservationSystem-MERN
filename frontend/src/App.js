@@ -81,16 +81,14 @@ function App() {
       </Switch>
       <div
         className="footer"
-        style={{ backgroundColor: "#A9A9A9", width: 1350 }}
+        style={{ backgroundColor: "#313438", width: 1365, height: 60 }}
       >
         <center>
           {" "}
           <div>
             <img src={trainicon} width="40" />{" "}
           </div>{" "}
-          <span style={{ color: "black" }}>
-            All Rights Reserved. Fasrin Aleem
-          </span>
+          <div style={{ color: "white" }}>All Rights Reserved. Fasrin</div>
         </center>
       </div>
     </Router>

@@ -54,7 +54,7 @@ class ConfirmGovEmpNIC extends Component {
                     <b> CONGRATULATIONS </b>{" "}
                   </h2>
                   <h6>
-                    You have got the 20% discount from your total bill. Confirm
+                    You have got the 10% discount from your total bill. Confirm
                     your NIC number to reduce it from your bill.
                   </h6>
                   <br />

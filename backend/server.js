@@ -11,12 +11,14 @@ const EmployeeRoutes = express.Router();
 const NICRoutes = express.Router();
 const EmailRoutes = express.Router();
 const SMSRoutes = express.Router();
+const PaymentRoutes = express.Router();
 
 const TicketModel = require("./TrainTicketSchema");
 const BookingModel = require("./TicketBookingSchema");
 const EmployeeModel = require("./EmployeeSchema");
 const Email = require("./EmailSender");
 const SMS = require("./SMSSender");
+const PaymentModel = require("./PaymentSchema");
 
 app.use(bodyParser.json());
 
@@ -30,6 +32,51 @@ mongoose
     console.log(err.message);
   });
 
+//Store the payment details to database
+PaymentRoutes.route("/addpayment").post(cors(), (req, res) => {
+  let addPayment = new PaymentModel(req.body);
+  addPayment
+    .save()
+    .then(addPayment => {
+      res.status(200).json({ addPayment: "Payment added successfully" });
+    })
+    .catch(err => {
+      res.status(400).send("Adding payment details failed");
+    });
+});
+
+PaymentRoutes.route("/addpayment").options(cors(), (req, res) => {
+  res.header("Access-Control-Allow-Origin", req.header("Origin"));
+  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "content-type");
+
+  console.log("request header: " + req.header("Origin"));
+});
+app.use("/trainticketrs/api6/", PaymentRoutes);
+
+//View the payment details from the database
+PaymentRoutes.route("/payments").get(function(req, res) {
+  PaymentModel.find(function(err, trainticketrs) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(trainticketrs);
+    }
+  });
+});
+
+//View the train ticket detail from database
+TicketRoutes.route("/tickets").get(function(req, res) {
+  TicketModel.find(function(err, trainticketrs) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(trainticketrs);
+    }
+  });
+});
+
+//Sending an email
 EmailRoutes.route("/sendemail").post(cors(), (req, res) => {
   console.log("In the route: " + req.body);
   Email.sendEmail(req.body);
@@ -190,13 +237,6 @@ BookingRoutes.route("/:bid").get(function(req, res) {
     res.json(book);
   });
 });
-
-// EmployeeRoutes.route("/:findnic").get(function(req, res) {
-//   let id = req.params.findnic;
-//   EmployeeModel.find.body(id, function(err, book) {
-//     res.json(book);
-//   });
-// });
 
 //Add new Train Ticket Details to db
 TicketRoutes.route("/tickets/addticket").post(function(req, res) {
