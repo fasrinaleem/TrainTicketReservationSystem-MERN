@@ -47,8 +47,9 @@ export default class EnterEmailandPhone extends Component {
         body: JSON.stringify({
           to: em,
           from: "apinternationalpvtltd1@gmail.com",
-          subject: "Hello Fasrin",
-          message: "<p>F society</p>"
+          subject: "Online Train Ticket Booking",
+          message:
+            "<p>  Dear Customer,Your payment is succesfully received... Your Booking ID is 1159075. Hope you enjoy this service.</p>"
         })
       })
         .then(response => {
@@ -56,7 +57,9 @@ export default class EnterEmailandPhone extends Component {
           return response.json();
         })
         .then(json => {
-          console.log("Email has been sended to : " + json.to + "Successfully");
+          console.log(
+            "Email has been sended to : " + json.to + " Successfully"
+          );
           fetch("http://localhost:4000/trainticketrs/api5/sendsms", {
             method: "POST",
             headers: {
@@ -72,7 +75,7 @@ export default class EnterEmailandPhone extends Component {
             })
             .then(json => {
               console.log(
-                "SMS has been sended to : " + json.to + "Successfuly"
+                "SMS has been sended to : " + json.to + " Successfuly"
               );
             });
         });

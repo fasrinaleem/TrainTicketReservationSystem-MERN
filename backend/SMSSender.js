@@ -7,7 +7,8 @@ class SMS {
 
     client.messages
       .create({
-        body: "Your payment is succesfully received",
+        body:
+          "Dear Customer,Your payment is succesfully received... Your Booking ID is 1159075. Hope you enjoy this service.",
         from: "+13393090187",
         to: smsObj.to.replace("0", "+94")
       })

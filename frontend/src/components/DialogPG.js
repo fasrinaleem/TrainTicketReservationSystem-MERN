@@ -49,7 +49,7 @@ class DialogPG extends Component {
       .post("http://localhost:4000/trainticketrs/api6/addpayment", addPayment)
       .then(res => console.log(res.data));
 
-    // this.props.history.push(`/enteremailandphone`);
+    this.props.history.push(`/enteremailandphone`);
   }
 
   render() {
